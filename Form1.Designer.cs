@@ -47,6 +47,7 @@
             this.trackBar1 = new System.Windows.Forms.TrackBar();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonSaveImage = new System.Windows.Forms.Button();
+            this.buttonCamera = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartBnC)).BeginInit();
@@ -139,7 +140,7 @@
             // 
             // buttonLoadImage
             // 
-            this.buttonLoadImage.Location = new System.Drawing.Point(173, 334);
+            this.buttonLoadImage.Location = new System.Drawing.Point(95, 334);
             this.buttonLoadImage.Name = "buttonLoadImage";
             this.buttonLoadImage.Size = new System.Drawing.Size(75, 23);
             this.buttonLoadImage.TabIndex = 9;
@@ -213,11 +214,22 @@
             this.buttonSaveImage.UseVisualStyleBackColor = true;
             this.buttonSaveImage.Click += new System.EventHandler(this.buttonSaveImage_Click);
             // 
+            // buttonCamera
+            // 
+            this.buttonCamera.Location = new System.Drawing.Point(236, 334);
+            this.buttonCamera.Name = "buttonCamera";
+            this.buttonCamera.Size = new System.Drawing.Size(103, 23);
+            this.buttonCamera.TabIndex = 16;
+            this.buttonCamera.Text = "Open Camera";
+            this.buttonCamera.UseVisualStyleBackColor = true;
+            this.buttonCamera.Click += new System.EventHandler(this.buttonCamera_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1207, 864);
+            this.Controls.Add(this.buttonCamera);
             this.Controls.Add(this.buttonSaveImage);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.trackBar1);
@@ -262,6 +274,7 @@
         private System.Windows.Forms.TrackBar trackBar1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonSaveImage;
+        private System.Windows.Forms.Button buttonCamera;
     }
 }
 

@@ -8,11 +8,20 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.DataVisualization.Charting;
+using WebCamLib;
 
 namespace EnarioImageProcessing
 {
     public partial class Form1 : Form
     {
+        /*
+        The camera function does continuous subtraction of the background image to the live feed when the camera is on
+.       and will continue until the camera is turned off
+
+        hitting any other function for image processing will cause an error if the camera is on (specifically the filters)
+
+        my apologies sir
+        */
 
         Bitmap imageA, imageB, imageC;
 
@@ -40,11 +49,71 @@ namespace EnarioImageProcessing
 
         private void openFileDialog2_FileOk(object sender, CancelEventArgs e) {
            imageC = new Bitmap(openFileDialog2.FileName);
+            ResizeImageCToMatchImageA();
            pictureBox3.Image = imageC;
         }
 
         private void buttonLoadImage_Click(object sender, EventArgs e) {
             openFileDialog1.ShowDialog();
+        }
+
+        private Device webcamDevice = null;
+        private bool isCameraOn = false;
+        private Timer cameraTimer;
+
+        private void buttonCamera_Click(object sender, EventArgs e) {
+            if (!isCameraOn) {
+                Device[] devices = DeviceManager.GetAllDevices();
+                if (devices.Length == 0) return;
+                webcamDevice = devices[0];
+                webcamDevice.ShowWindow(pictureBox1);
+                isCameraOn = true;
+                buttonCamera.Text = "Stop Camera";
+
+                if (cameraTimer == null) {
+                    cameraTimer = new Timer();
+                    cameraTimer.Interval = 10; 
+                    cameraTimer.Tick += CameraTimer_Tick;
+                }
+                cameraTimer.Start();
+            }
+            else {
+                if (webcamDevice != null) {
+                    webcamDevice.Stop();
+                    webcamDevice = null;
+                }
+                if (cameraTimer != null)
+                    cameraTimer.Stop();
+                pictureBox1.Image = null;
+                isCameraOn = false;
+                buttonCamera.Text = "Start Camera";
+            }
+        }
+
+        private void CameraTimer_Tick(object sender, EventArgs e)
+        {
+            if (webcamDevice != null && imageC != null)
+            {
+                webcamDevice.Sendmessage();
+                IDataObject data = Clipboard.GetDataObject();
+                if (data != null && data.GetDataPresent("System.Drawing.Bitmap"))
+                {
+                    Image capturedImage = (Image)data.GetData("System.Drawing.Bitmap", true);
+                    Bitmap frame = new Bitmap(capturedImage);
+
+                    // Ensure imageC matches the frame size
+                    if (imageC.Width != frame.Width || imageC.Height != frame.Height)
+                    {
+                        ResizeImageCToMatchFrame(frame);
+                    }
+
+                    imageA = frame;
+                    pictureBox1.Image = imageA;
+
+                    int threshold = trackBar1.Value;
+                    PerformSubtraction(imageA, imageC, threshold);
+                }
+            }
         }
 
         private void buttonLoadBackground_Click(object sender, EventArgs e) {
@@ -150,22 +219,63 @@ namespace EnarioImageProcessing
             return distance < threshold;
         }
 
-        private void buttonSubtract_Click(object sender, EventArgs e) {
-            int threshold = trackBar1.Value;
-            Bitmap resultImage = new Bitmap(imageA.Width, imageA.Height);
+        private void ResizeImageCToMatchImageA() {
+            if (imageC == null || imageA == null) return;
 
-            for (int x = 0; x < imageA.Width; x++) {
-                for (int y = 0; y < imageA.Height; y++) {
-                    Color pixel = imageA.GetPixel(x, y);
-                    Color newbg_pixel = imageC.GetPixel(x, y);
+            if (imageC.Width != imageA.Width || imageC.Height != imageA.Height) {
+                Bitmap resized = new Bitmap(imageA.Width, imageA.Height);
+                using (Graphics g = Graphics.FromImage(resized)) {
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.DrawImage(imageC, 0, 0, imageA.Width, imageA.Height);
+                }
+                imageC.Dispose();
+                imageC = resized;
+                pictureBox3.Image = imageC;
+            }
+        }
+
+        private void ResizeImageCToMatchFrame(Bitmap frame) {
+            if (imageC == null || frame == null) return;
+
+            if (imageC.Width != frame.Width || imageC.Height != frame.Height) {
+                Bitmap resized = new Bitmap(frame.Width, frame.Height);
+                using (Graphics g = Graphics.FromImage(resized)) {
+                    g.InterpolationMode = System.Drawing.Drawing2D.InterpolationMode.HighQualityBicubic;
+                    g.DrawImage(imageC, 0, 0, frame.Width, frame.Height);
+                }
+                imageC.Dispose();
+                imageC = resized;
+                pictureBox3.Image = imageC;
+            }
+        }
+
+        private void PerformSubtraction(Bitmap foreground, Bitmap background, int threshold)
+        {
+            if (foreground == null || background == null) return;
+            if (foreground.Width != background.Width || foreground.Height != background.Height) return;
+
+            Bitmap resultImage = new Bitmap(foreground.Width, foreground.Height);
+
+            for (int x = 0; x < foreground.Width; x++)
+            {
+                for (int y = 0; y < foreground.Height; y++)
+                {
+                    Color pixel = foreground.GetPixel(x, y);
+                    Color bgPixel = background.GetPixel(x, y);
 
                     if (isColorCloseToGreen(pixel, threshold))
-                        resultImage.SetPixel(x, y, newbg_pixel);
-                    else 
+                        resultImage.SetPixel(x, y, bgPixel);
+                    else
                         resultImage.SetPixel(x, y, pixel);
                 }
             }
             pictureBox2.Image = resultImage;
+        }
+
+        private void buttonSubtract_Click(object sender, EventArgs e)
+        {
+            int threshold = trackBar1.Value;
+            PerformSubtraction(imageA, imageC, threshold);
         }
 
         private void generateHistogram(){
