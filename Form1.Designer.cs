@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea6 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend6 = new System.Windows.Forms.DataVisualization.Charting.Legend();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.pictureBox2 = new System.Windows.Forms.PictureBox();
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
@@ -48,6 +48,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.buttonSaveImage = new System.Windows.Forms.Button();
             this.buttonCamera = new System.Windows.Forms.Button();
+            this.buttonSmooth = new System.Windows.Forms.Button();
+            this.buttonSharpen = new System.Windows.Forms.Button();
+            this.buttonMeanRemoval = new System.Windows.Forms.Button();
+            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.buttonEmboss = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox2)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.chartBnC)).BeginInit();
@@ -84,7 +90,7 @@
             // 
             // buttonCopy
             // 
-            this.buttonCopy.Location = new System.Drawing.Point(52, 363);
+            this.buttonCopy.Location = new System.Drawing.Point(51, 389);
             this.buttonCopy.Name = "buttonCopy";
             this.buttonCopy.Size = new System.Drawing.Size(75, 23);
             this.buttonCopy.TabIndex = 4;
@@ -94,7 +100,7 @@
             // 
             // buttonGrayScale
             // 
-            this.buttonGrayScale.Location = new System.Drawing.Point(133, 363);
+            this.buttonGrayScale.Location = new System.Drawing.Point(132, 389);
             this.buttonGrayScale.Name = "buttonGrayScale";
             this.buttonGrayScale.Size = new System.Drawing.Size(75, 23);
             this.buttonGrayScale.TabIndex = 5;
@@ -104,7 +110,7 @@
             // 
             // buttonInvert
             // 
-            this.buttonInvert.Location = new System.Drawing.Point(214, 363);
+            this.buttonInvert.Location = new System.Drawing.Point(213, 389);
             this.buttonInvert.Name = "buttonInvert";
             this.buttonInvert.Size = new System.Drawing.Size(75, 23);
             this.buttonInvert.TabIndex = 6;
@@ -114,7 +120,7 @@
             // 
             // buttonSepia
             // 
-            this.buttonSepia.Location = new System.Drawing.Point(295, 363);
+            this.buttonSepia.Location = new System.Drawing.Point(294, 389);
             this.buttonSepia.Name = "buttonSepia";
             this.buttonSepia.Size = new System.Drawing.Size(75, 23);
             this.buttonSepia.TabIndex = 7;
@@ -124,23 +130,23 @@
             // 
             // chartBnC
             // 
-            chartArea1.Name = "ChartArea1";
-            this.chartBnC.ChartAreas.Add(chartArea1);
-            legend1.Name = "Legend1";
-            this.chartBnC.Legends.Add(legend1);
+            chartArea6.Name = "ChartArea1";
+            this.chartBnC.ChartAreas.Add(chartArea6);
+            legend6.Name = "Legend1";
+            this.chartBnC.Legends.Add(legend6);
             this.chartBnC.Location = new System.Drawing.Point(824, 27);
             this.chartBnC.Name = "chartBnC";
-            series1.ChartArea = "ChartArea1";
-            series1.Legend = "Legend1";
-            series1.Name = "Series1";
-            this.chartBnC.Series.Add(series1);
+            series6.ChartArea = "ChartArea1";
+            series6.Legend = "Legend1";
+            series6.Name = "Series1";
+            this.chartBnC.Series.Add(series6);
             this.chartBnC.Size = new System.Drawing.Size(375, 300);
             this.chartBnC.TabIndex = 8;
             this.chartBnC.Text = "chart1";
             // 
             // buttonLoadImage
             // 
-            this.buttonLoadImage.Location = new System.Drawing.Point(95, 334);
+            this.buttonLoadImage.Location = new System.Drawing.Point(94, 360);
             this.buttonLoadImage.Name = "buttonLoadImage";
             this.buttonLoadImage.Size = new System.Drawing.Size(75, 23);
             this.buttonLoadImage.TabIndex = 9;
@@ -157,16 +163,17 @@
             // 
             this.pictureBox3.BackColor = System.Drawing.Color.Transparent;
             this.pictureBox3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.pictureBox3.Location = new System.Drawing.Point(12, 403);
+            this.pictureBox3.Location = new System.Drawing.Point(12, 441);
             this.pictureBox3.Name = "pictureBox3";
             this.pictureBox3.Size = new System.Drawing.Size(400, 300);
             this.pictureBox3.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox3.TabIndex = 10;
             this.pictureBox3.TabStop = false;
+            this.pictureBox3.Click += new System.EventHandler(this.pictureBox3_Click);
             // 
             // buttonLoadBackground
             // 
-            this.buttonLoadBackground.Location = new System.Drawing.Point(82, 725);
+            this.buttonLoadBackground.Location = new System.Drawing.Point(83, 753);
             this.buttonLoadBackground.Name = "buttonLoadBackground";
             this.buttonLoadBackground.Size = new System.Drawing.Size(115, 23);
             this.buttonLoadBackground.TabIndex = 11;
@@ -176,7 +183,7 @@
             // 
             // buttonSubtract
             // 
-            this.buttonSubtract.Location = new System.Drawing.Point(245, 725);
+            this.buttonSubtract.Location = new System.Drawing.Point(236, 753);
             this.buttonSubtract.Name = "buttonSubtract";
             this.buttonSubtract.Size = new System.Drawing.Size(75, 23);
             this.buttonSubtract.TabIndex = 12;
@@ -187,7 +194,7 @@
             // trackBar1
             // 
             this.trackBar1.LargeChange = 1;
-            this.trackBar1.Location = new System.Drawing.Point(58, 769);
+            this.trackBar1.Location = new System.Drawing.Point(61, 782);
             this.trackBar1.Maximum = 100;
             this.trackBar1.Minimum = 1;
             this.trackBar1.Name = "trackBar1";
@@ -198,7 +205,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(178, 817);
+            this.label1.Location = new System.Drawing.Point(177, 830);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(57, 13);
             this.label1.TabIndex = 14;
@@ -206,7 +213,7 @@
             // 
             // buttonSaveImage
             // 
-            this.buttonSaveImage.Location = new System.Drawing.Point(582, 334);
+            this.buttonSaveImage.Location = new System.Drawing.Point(582, 358);
             this.buttonSaveImage.Name = "buttonSaveImage";
             this.buttonSaveImage.Size = new System.Drawing.Size(75, 23);
             this.buttonSaveImage.TabIndex = 15;
@@ -216,7 +223,7 @@
             // 
             // buttonCamera
             // 
-            this.buttonCamera.Location = new System.Drawing.Point(236, 334);
+            this.buttonCamera.Location = new System.Drawing.Point(235, 360);
             this.buttonCamera.Name = "buttonCamera";
             this.buttonCamera.Size = new System.Drawing.Size(103, 23);
             this.buttonCamera.TabIndex = 16;
@@ -224,11 +231,83 @@
             this.buttonCamera.UseVisualStyleBackColor = true;
             this.buttonCamera.Click += new System.EventHandler(this.buttonCamera_Click);
             // 
+            // buttonSmooth
+            // 
+            this.buttonSmooth.Location = new System.Drawing.Point(468, 428);
+            this.buttonSmooth.Name = "buttonSmooth";
+            this.buttonSmooth.Size = new System.Drawing.Size(123, 23);
+            this.buttonSmooth.TabIndex = 17;
+            this.buttonSmooth.Text = "Smooth";
+            this.buttonSmooth.UseVisualStyleBackColor = true;
+            this.buttonSmooth.Click += new System.EventHandler(this.buttonSmooth_Click);
+            // 
+            // buttonSharpen
+            // 
+            this.buttonSharpen.Location = new System.Drawing.Point(468, 470);
+            this.buttonSharpen.Name = "buttonSharpen";
+            this.buttonSharpen.Size = new System.Drawing.Size(123, 23);
+            this.buttonSharpen.TabIndex = 18;
+            this.buttonSharpen.Text = "Sharpen";
+            this.buttonSharpen.UseVisualStyleBackColor = true;
+            this.buttonSharpen.Click += new System.EventHandler(this.buttonSharpen_Click);
+            // 
+            // buttonMeanRemoval
+            // 
+            this.buttonMeanRemoval.Location = new System.Drawing.Point(468, 512);
+            this.buttonMeanRemoval.Name = "buttonMeanRemoval";
+            this.buttonMeanRemoval.Size = new System.Drawing.Size(123, 23);
+            this.buttonMeanRemoval.TabIndex = 19;
+            this.buttonMeanRemoval.Text = "Mean Removal";
+            this.buttonMeanRemoval.UseVisualStyleBackColor = true;
+            this.buttonMeanRemoval.Click += new System.EventHandler(this.buttonMeanRemoval_Click);
+            // 
+            // listBox1
+            // 
+            this.listBox1.FormattingEnabled = true;
+            this.listBox1.Items.AddRange(new object[] {
+            "Horizontal & Vertical",
+            "All Directions",
+            "Lossy",
+            "Horizontal Only",
+            "Vertical Only",
+            "Laplascian"});
+            this.listBox1.Location = new System.Drawing.Point(670, 428);
+            this.listBox1.Name = "listBox1";
+            this.listBox1.Size = new System.Drawing.Size(120, 82);
+            this.listBox1.TabIndex = 20;
+            this.listBox1.SelectedIndexChanged += new System.EventHandler(this.listBox1_SelectedIndexChanged);
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(676, 401);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(103, 13);
+            this.label2.TabIndex = 21;
+            this.label2.Text = "Select Emboss Style";
+            this.label2.Click += new System.EventHandler(this.label2_Click);
+            // 
+            // buttonEmboss
+            // 
+            this.buttonEmboss.Location = new System.Drawing.Point(670, 512);
+            this.buttonEmboss.Name = "buttonEmboss";
+            this.buttonEmboss.Size = new System.Drawing.Size(120, 23);
+            this.buttonEmboss.TabIndex = 22;
+            this.buttonEmboss.Text = "Apply Emboss";
+            this.buttonEmboss.UseVisualStyleBackColor = true;
+            this.buttonEmboss.Click += new System.EventHandler(this.buttonEmboss_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1207, 864);
+            this.Controls.Add(this.buttonEmboss);
+            this.Controls.Add(this.label2);
+            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.buttonMeanRemoval);
+            this.Controls.Add(this.buttonSharpen);
+            this.Controls.Add(this.buttonSmooth);
             this.Controls.Add(this.buttonCamera);
             this.Controls.Add(this.buttonSaveImage);
             this.Controls.Add(this.label1);
@@ -275,6 +354,12 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonSaveImage;
         private System.Windows.Forms.Button buttonCamera;
+        private System.Windows.Forms.Button buttonSmooth;
+        private System.Windows.Forms.Button buttonSharpen;
+        private System.Windows.Forms.Button buttonMeanRemoval;
+        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Button buttonEmboss;
     }
 }
 
